@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" ng-app="VotingApp" xmlns:ng="http://angularjs.org">
+<head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+    <!-- Stylesheets -->
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="bootstrap.min.css" type="text/css" rel="stylesheet" />-->
+    <!-- Application title and icons -->
+    <title>Voting Service Lab Sample</title>
+
+    <!-- IE Fix for HTML5 Tags -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+<body ng-controller="VotingAppController">
+    <div class="container-fluid" style="width: 800px">
+        <h1>Votes</h1>
+        <div>
+            <!--Add new voting item: -->
+            <div class="input-group">
+                <input id="txtAdd" type="text" class="form-control" placeholder="Enter new voting term" ng-model="item" style="width: 300px" />&nbsp;
+                <button id="btnAdd" class="btn btn-primary" ng-click="add(item)">Add</button>
+            </div>
+        </div>
+        <br />
+        <table class="table table-striped table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>Voting Item</th>
+                    <th>Count</th>
+                    <th><button id="btnRefresh" class="btn btn-primary" ng-click="refresh()">Refresh</button></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="vote in votes">
+                    <td><button class="btn btn-primary" ng-click="add(vote.name)">{{vote.name}}</button></td>
+                    <td>{{vote.voteCount}}</td>
+                    <td><button class="btn btn-default" ng-click="remove(vote.name)">Remove</button></td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <hr />
+        <div>Total number of ballots cast:  <span class="lead">&nbsp;&nbsp;&nbsp;{{totalBallots}}</span></div>
+        <br />
+
+        <div><hr /><span class="small"><em>Application Version: {{appVersion}}</em></span></div>
+    </div>
+
+    <!-- 3rd party libraries -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-route.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-cookies.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-animate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-sanitize.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.js"></script>
+
+    <!-- Load application main script -->
+    <script>
+        var app = angular.module('VotingApp', ['ui.bootstrap']);
+        app.run(function () { });
+
+        app.controller('VotingAppController', ['$rootScope', '$scope', '$http', '$timeout', function ($rootScope, $scope, $http, $timeout) {
+
+            $scope.refresh = function() {
+                $http.get('./')
+                    .success(function (data, status) {
+                        $scope.votes = data;
+                        $scope.refreshTotal();
+                        $scope.refreshVersion();
+                        $scope.item = undefined;
+                    })
+                    .error(function (data, status) {
+                        $scope.votes = undefined;
+                    });
+            };
+
+            $scope.refreshTotal = function () {
+                $http.get('./ballots')
+                    .success(function (data, status) {
+                        $scope.totalBallots = data;
+                    })
+                    .error(function (data, status) {
+                        $scope.totalBallots = 0;
+                    });
+            };
+
+            $scope.refreshVersion = function () {
+                $http.get('./appVersion')
+                    .success(function (data, status) {
+                        $scope.appVersion = data;
+                    })
+                    .error(function (data, status) {
+                        $scope.appVersion = "[unknown]";
+                    });
+            };
+
+            $scope.remove = function (item) {
+                $http.delete('./' + item)
+                    .success(function (data, status) {
+                        $scope.refresh();
+                    })
+            };
+
+            $scope.add = function (item) {
+                var fd = new FormData();
+                fd.append('item', item);
+                $http.post('./' + item, fd, {
+                    transformRequest: angular.identity,
+                    headers: { 'Content-Type' : undefined }
+                })
+                .success(function(data, status)
+                {
+                    $scope.refresh();
+                    $scope.item = undefined;
+                })
+            };
+        }]);
+    </script>
+</body>
+</html>
