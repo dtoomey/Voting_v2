@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Linq;
-using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-//using System.Net.Http.Headers;
-//using System.Web.Http;
 using System.Fabric;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
