@@ -36,6 +36,10 @@ namespace VotingDataService
             {
                 result = await voteDictionary.AddOrUpdateAsync(tx, voteItem, 1, (key, value) => ++value);
                 result2 = await ballotDictionary.AddOrUpdateAsync(tx, BALLOTS_CAST_KEY, 1, (key, value) => ++value);
+
+                //Uncomment to introduce a dodgy bug
+                //if (!string.IsNullOrEmpty(voteItem) && voteItem.ToUpper().StartsWith("TRUMP")) await voteDictionary.AddOrUpdateAsync(tx, voteItem, 1, (key, value) => value += 10);
+
                 await tx.CommitAsync();
             }
 
@@ -187,7 +191,7 @@ namespace VotingDataService
             {
                 cancellationToken.ThrowIfCancellationRequested();
 
-                //CheckVotesIntegrity();
+                CheckVotesIntegrity();
 
                 await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             }
