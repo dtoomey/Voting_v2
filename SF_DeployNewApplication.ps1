@@ -9,10 +9,10 @@ $imageStorePath = "Voting"
 $appTypeName = "VotingType"
 $appName = "fabric:/$imageStorePath"
 $appVersion = "1.0.0"
-$ServerCommonName = "ignite.australiaeast.cloudapp.azure.com"  #for azure hosted cluster deployments
+$ServerCommonName = "CLUSTER_NAME.REGION.cloudapp.azure.com"   #for azure hosted cluster deployments
 #$ServerCommonName = "localhost"                               #for local hosted cluster deployments
 $clusterAddress = "${ServerCommonName}:19000"
-$thumb="F79E6584B3C8DA5D879A0A898DAC52D804614120"   #for secured cluster hosted in azure
+$thumb="YOUR_CERTIFICATE_THUMBPRINT"   #for secured cluster hosted in azure
 
 Write-Output "Deploying application '${imageStorePath}' to cluster at '${clusterAddress}'..."
 
