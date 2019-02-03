@@ -40,7 +40,7 @@ namespace VotingService
                     {
                         ServiceEventSource.Current.ServiceMessage(serviceContext, $"Starting WebListener on {url}");
 
-                        return new WebHostBuilder().UseWebListener()
+                        return new WebHostBuilder().UseKestrel()
                                     .ConfigureServices(
                                         services => services
                                             .AddSingleton<StatelessServiceContext>(serviceContext))

@@ -20,6 +20,9 @@
                                     AzureActiveDirectory="true"
                                     ServerCertThumbprint="0123456789012345678901234567890123456789" />
   -->
-  <ClusterConnectionParameters ConnectionEndpoint="" />
+  <ClusterConnectionParameters ConnectionEndpoint="ignite.australiaeast.cloudapp.azure.com:19000" X509Credential="true" ServerCertThumbprint="F79E6584B3C8DA5D879A0A898DAC52D804614120" FindType="FindByThumbprint" FindValue="F79E6584B3C8DA5D879A0A898DAC52D804614120" StoreLocation="CurrentUser" StoreName="My" />
   <ApplicationParameterFile Path="..\ApplicationParameters\Cloud.xml" />
+  <UpgradeDeployment Mode="Monitored" Enabled="false">
+    <Parameters FailureAction="Rollback" UpgradeReplicaSetCheckTimeoutSec="2" Force="False" HealthCheckRetryTimeoutSec="10" HealthCheckWaitDurationSec="0" HealthCheckStableDurationSec="5" />
+  </UpgradeDeployment>
 </PublishProfile>

@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingDataService", "Voting
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotingService", "VotingService\VotingService.csproj", "{0B5F019E-2355-42B4-968D-01063E889B94}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomScripts", "CustomScripts", "{B5637A41-7B93-4F72-B54F-B82F63636B3B}"
+	ProjectSection(SolutionItems) = preProject
+		SF_DeployNewApplication.ps1 = SF_DeployNewApplication.ps1
+		SF_UndeployApplication.ps1 = SF_UndeployApplication.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +48,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1FEAD51-FFD2-4C78-8970-C22B6DDC8E24}
 	EndGlobalSection
 EndGlobal

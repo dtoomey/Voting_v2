@@ -28,11 +28,7 @@ namespace VotingService
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
-            //services.AddMvc(options =>
-            //{
-            //    options.OutputFormatters.Add(new HtmlOutputFormatter());
-            //});
+            services.AddMvc(options => options.OutputFormatters.Add(new HtmlOutputFormatter()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

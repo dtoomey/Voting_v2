@@ -132,6 +132,7 @@ namespace VotingDataService
         {
             long totalVotesAcrossItems = 0;
             long totalBallotsCast = 0;
+            HealthReportSendOptions sendOptions = new HealthReportSendOptions() { Immediate = true };
 
             using (ITransaction tx = StateManager.CreateTransaction())
             {
@@ -148,12 +149,12 @@ namespace VotingDataService
                     HealthInformation healthInformation = new HealthInformation("ServiceCode", "StateDictionary", HealthState.Error);
                     healthInformation.Description = string.Format("Total votes across items [{0}] does not equal total ballots cast [{1}].", totalVotesAcrossItems.ToString(), totalBallotsCast.ToString());
                     //healthInformation.TimeToLive = TimeSpan.FromSeconds(15);
-                    this.Partition.ReportReplicaHealth(healthInformation);
+                    this.Partition.ReportReplicaHealth(healthInformation, sendOptions);
                 }
                 else
                 {
                     HealthInformation healthInformation = new HealthInformation("ServiceCode", "StateDictionary", HealthState.Ok);
-                    this.Partition.ReportReplicaHealth(healthInformation);
+                    this.Partition.ReportReplicaHealth(healthInformation, sendOptions);
                 }
 
                 await tx.CommitAsync();
